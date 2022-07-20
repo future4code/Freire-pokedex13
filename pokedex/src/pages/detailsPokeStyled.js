@@ -30,6 +30,18 @@ export const BotaoGoToHome = styled.span`
     text-decoration: underline;
 `
 
+export const BotaoExcluir = styled.button` 
+    height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    background-color: #FF6262;
+    color: white;
+    border-radius: 8px;
+    border: none;
+`
+
 export const MainContainer = styled.main` 
     width: 100%;
     min-height: 84vh;

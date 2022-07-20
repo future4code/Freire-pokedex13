@@ -84,12 +84,12 @@ export function Home() {
             <Body>
                 <Titulo>Todos Pokémons</Titulo>
                 <Bloco>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
+                    <CardPoke/>
+                    <CardPoke/>
+                    <CardPoke/>
+                    <CardPoke/>
+                    <CardPoke/>
+                    <CardPoke/>
                 </Bloco>
             </Body>
         </Tela>
