@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import {goToHome} from '../coordinator/coordinator'
 import styled, { createGlobalStyle } from "styled-components"
 import Logo from '../assets/logo.png'
 import PokeBg from '../assets/poke.png'
 import ExemploPokemon from '../assets/exemploPokemon.png'
+import { CapturarSoltar } from "../components/CapturarSoltar"
 
 const GlobalStyle2 = createGlobalStyle`
     *{
@@ -93,16 +94,24 @@ const StatsSection = styled.section`
 
 export function DetailsPage() {
     const navigate = useNavigate()
+    const [isCapturando, setIsCapturando] = useState(false)
 
+    const handleCaptura = () => {
+        setIsCapturando(true)
+        setTimeout(() => {
+            setIsCapturando(false)
+        }, 2000)
+    }
 
     return(
         <div>
             <GlobalStyle2 />
             <HeaderContainer>
-                <BotaoGoToHome onClick={() => goToHome(navigate)}>◀ todos pokemons</BotaoGoToHome>
+                <BotaoGoToHome onClick={() => goToHome(navigate)}>{'<'} todos pokemons</BotaoGoToHome>
                 <Imagem>
                     <img src={Logo} alt='logo pokedex'/>
                 </Imagem>
+                <button onClick={() => handleCaptura()}>Excluir</button>
             </HeaderContainer>
             <MainContainer>
                 <TituloPagina>Detalhes</TituloPagina>
@@ -118,6 +127,7 @@ export function DetailsPage() {
                     <StatsSection>
                         <h2>Base stats</h2>
                     </StatsSection>
+                    {isCapturando && <CapturarSoltar acao={'soltar'} />}
                 </DetalhesSection>
             </MainContainer>
         </div>
