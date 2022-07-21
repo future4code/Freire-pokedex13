@@ -40,6 +40,7 @@ export const BotaoExcluir = styled.button`
     color: white;
     border-radius: 8px;
     border: none;
+    font-size: 16px;
 `
 
 export const MainContainer = styled.main` 
@@ -86,8 +87,8 @@ export const ImagensContainerMenor = styled.div`
 `
 
 export const ImagemElemento = styled.img` 
-    width: 150px;
-    height: 150px;
+    width: 275px;
+    height: 275px;
 `
 
 export const StatsSection = styled.section` 
@@ -96,7 +97,23 @@ export const StatsSection = styled.section`
     width: 343px;
     background-color: white;
     border-radius: 8px;
+    padding: 1.15rem;
 `
+
+export const TitleStatsSection = styled.h2`
+    font-size: 1.5rem;
+`
+export const StatTotalContainer = styled.div` 
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+    padding: 0 0.4rem;
+    text-align: center;
+    font-weight: bold;
+`
+
 export const MovesSection = styled.section`
     margin-left: 2.85rem;
     margin-top: 190px;
@@ -115,11 +132,11 @@ export const CardPequeno = styled.div`
     flex-direction: column;
 `
 export const Id = styled.div`
-width: 30px;
-height: 19px;
-margin: -5px 0px 0px -3px;
-font-size: 16px;
-/* margin: 10px 0px 0px 23px; */
+    width: 30px;
+    height: 19px;
+    margin: -5px 0px 0px -3px;
+    font-size: 16px;
+    /* margin: 10px 0px 0px 23px; */
 `
 export const Name = styled.div`
     width: 159px;

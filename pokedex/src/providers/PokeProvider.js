@@ -8,7 +8,7 @@ export const PokeProvider = (props) => {
 
     //requisições
     const GetPokemonDetails = (idPokemon) => {
-        axios.get(`https://pokeapi.co/api/v2/pokemon/1/`)
+        axios.get(`https://pokeapi.co/api/v2/pokemon/20/`)
         .then(resp => {
             console.log(resp.data)
             setDetalhesPokemon(resp.data)
