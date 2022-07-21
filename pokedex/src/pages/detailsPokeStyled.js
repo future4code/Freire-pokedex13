@@ -94,7 +94,7 @@ export const ImagemElemento = styled.img`
 export const StatsSection = styled.section` 
     margin-left: 2.85rem;
     height: 100%;
-    width: 343px;
+    min-width: 343px;
     background-color: white;
     border-radius: 8px;
     padding: 1.15rem;
@@ -114,19 +114,21 @@ export const StatTotalContainer = styled.div`
     font-weight: bold;
 `
 
-export const MovesSection = styled.section`
+export const NameMovesContainer = styled.section` 
     margin-left: 2.85rem;
-    margin-top: 190px;
-    height: 427px;
-    width: 343px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`
+
+export const MovesSection = styled.section`
+    height: 453px;
+    min-width: 292px;
     background-color: white;
     border-radius: 8px;
-    left: 771px;
-    top: 184px;
 `
 export const CardPequeno = styled.div`
-    margin-left: -343px;
-    height: 210px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -136,13 +138,15 @@ export const Id = styled.div`
     height: 19px;
     margin: -5px 0px 0px -3px;
     font-size: 16px;
-    /* margin: 10px 0px 0px 23px; */
 `
 export const Name = styled.div`
     width: 159px;
     height: 39px;
     font-size: 45px;
     margin: 0px 0px 0px -3px;
+    &:first-letter {
+        text-transform: uppercase;
+    }
 `
 export const BotaoUm = styled.div`
     width: 100px;
@@ -163,4 +167,16 @@ export const BotaoDois = styled.div`
     margin-left: 110px;
     margin-top: -30px;
     text-align: center;
+`
+
+export const ImagemContainer = styled.div` 
+    width: 100%;
+`
+
+export const PokemonImagem = styled.img`
+    width: 100%;
+    min-width: 292px;
+    height: 375px;
+    position: relative;
+    bottom: 14rem;
 `

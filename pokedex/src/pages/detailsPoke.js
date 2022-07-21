@@ -7,15 +7,19 @@ import { PokeContext } from "../context/PokeContext"
 import { CapturarSoltar } from "../components/CapturarSoltar"
 import DetailsStatComponent from "../components/DetailsStatComponent"
 
-import {GlobalStyle2, HeaderContainer, MainContainer, Imagem, BotaoGoToHome, TituloPagina, DetalhesSection, ImagensContainer, ImagensContainerMenor, ImagemElemento, StatsSection, MovesSection, CardPequeno, Id, Name, BotaoUm, BotaoDois, BotaoExcluir, TitleStatsSection, StatTotalContainer} from "./detailsPokeStyled"
+import {GlobalStyle2, HeaderContainer, MainContainer, Imagem, BotaoGoToHome, TituloPagina, DetalhesSection, ImagensContainer, ImagensContainerMenor, ImagemElemento, StatsSection, MovesSection, CardPequeno, Id, Name, BotaoUm, BotaoDois, BotaoExcluir, TitleStatsSection, StatTotalContainer, NameMovesContainer, ImagemContainer, PokemonImagem} from "./detailsPokeStyled"
 
 export function DetailsPage() {
     const navigate = useNavigate()
-    const { id } = useParams()
     const [isCapturando, setIsCapturando] = useState(false)
-    const {GetPokemonDetails, detalhesPokemon} = useContext(PokeContext)
+    const {GetPokemonDetails, getAllPokemonColors, detalhesPokemon, coresPokemon} = useContext(PokeContext)
+    
+    const { id } = useParams()
     const statList = detalhesPokemon?.stats
     let totalStatsValue = 0
+
+    //styled para definir a cor do card de detalhes
+
 
     //renderiza o car de captura ou soltar, depois de dois segundos apaga o card
     const handleCaptura = () => {
@@ -36,8 +40,11 @@ export function DetailsPage() {
         )
     })
 
+    coresPokemon && console.log(coresPokemon)
+
     useEffect(() => {
         GetPokemonDetails()
+        getAllPokemonColors()
     }, [])
 
     return(
@@ -78,20 +85,20 @@ export function DetailsPage() {
                     {isCapturando && <CapturarSoltar acao={'soltar'} />}
 
                     {/* seção de moves */}
-                    <MovesSection>
-                        <h2>Moves:</h2>
-                    </MovesSection>
-                    
-                    <CardPequeno>
-                        <Id>#01</Id>
-                        <Name>Bulbasaur</Name>
-                        <BotaoUm></BotaoUm>
-                        <BotaoDois></BotaoDois>
-                    </CardPequeno>
-
-                    <div>
-                        <img src={detalhesPokemon?.sprites?.other?.home?.front_default} alt='Imagen default do pokemon' />
-                    </div>
+                    <NameMovesContainer>
+                        <CardPequeno>
+                            <Id>#{detalhesPokemon?.id}</Id>
+                            <Name>{detalhesPokemon?.name}</Name>
+                            <BotaoUm></BotaoUm>
+                            <BotaoDois></BotaoDois>
+                        </CardPequeno>
+                        <MovesSection>
+                            <h2>Moves:</h2>
+                        </MovesSection>
+                    </NameMovesContainer>
+                    <ImagemContainer>
+                        <PokemonImagem src={detalhesPokemon?.sprites?.other?.home?.front_default} alt='Imagen default do pokemon' />
+                    </ImagemContainer>
                 </DetalhesSection>
             </MainContainer>
         </div>
