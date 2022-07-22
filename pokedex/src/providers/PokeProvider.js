@@ -4,12 +4,14 @@ import axios from 'axios'
 
 
 export const PokeProvider = (props) => {
+    // se necessário mudar os nomes dos estados e requisições
     const [detalhesPokemon, setDetalhesPokemon] = useState({})
     const [coresPokemon, setCoresPokemon] = useState([])
 
     //requisições
+    //pega um pokemon específico, vai receber o id por parâmetro na página de detalhes, ou onde for chamada
     const GetPokemonDetails = (idPokemon) => {
-        axios.get(`https://pokeapi.co/api/v2/pokemon/11/`)
+        axios.get(`https://pokeapi.co/api/v2/pokemon/lugia/`)
         .then(resp => {
             setDetalhesPokemon(resp.data)
         })
@@ -23,7 +25,9 @@ export const PokeProvider = (props) => {
         .then(resp => {
             setCoresPokemon(prevCoresPokemon => [...prevCoresPokemon, resp.data])
         })
-        .catch()
+        .catch(err => {
+            console.log(err)
+        })
     }
 
     const getAllPokemonColors = () => {

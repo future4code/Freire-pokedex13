@@ -165,38 +165,14 @@ export const CardPequeno = styled.div`
 `
 export const Id = styled.div`
     width: 30px;
-    height: 19px;
-    margin: -5px 0px 0px -3px;
     font-size: 16px;
 `
 export const Name = styled.div`
-    width: 159px;
-    height: 39px;
+    min-width: 159px;
     font-size: 45px;
-    margin: 0px 0px 0px -3px;
     &:first-letter {
         text-transform: uppercase;
     }
-`
-export const BotaoUm = styled.div`
-    width: 100px;
-    height: 30px;
-    background-color: aliceblue;
-    border-radius: 8px;
-    border: dashed;
-    margin-left: 1px;
-    margin-top: 25px;
-    text-align: center;
-`
-export const BotaoDois = styled.div`
-    width: 100px;
-    height: 30px;
-    background-color: aliceblue;
-    border-radius: 8px;
-    border: dashed;
-    margin-left: 110px;
-    margin-top: -30px;
-    text-align: center;
 `
 
 export const ImagemContainer = styled.div`

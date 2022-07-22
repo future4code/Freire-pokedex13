@@ -1,21 +1,26 @@
 import React, { useState, useContext, useEffect } from "react"
 import {useNavigate, useParams} from 'react-router-dom'
 import styled from "styled-components"
-
+//import componentes e imagens
 import {goToHome} from '../coordinator/coordinator'
 import Logo from '../assets/logo.png'
 import { PokeContext } from "../context/PokeContext"
 import { CapturarSoltar } from "../components/CapturarSoltar"
 import DetailsStatComponent from "../components/DetailsStatComponent"
-
+import MostraTiposPokemon from "../components/MostraTiposPokemon"
+//import styles
 import {GlobalStyle2, HeaderContainer, MainContainer, Imagem, BotaoGoToHome, TituloPagina, DetalhesSection, ImagensContainer, ImagensContainerMenor, ImagemElemento, StatsSection, MovesSection, CardPequeno, Id, Name, BotaoUm, BotaoDois, BotaoExcluir, TitleStatsSection, StatTotalContainer, NameMovesContainer, ImagemContainer, PokemonImagem, MovesLista, MovesListaItem, DetalhesSectionDivision} from "./detailsPokeStyled"
 
 export function DetailsPage() {
     const navigate = useNavigate()
     const [isCapturando, setIsCapturando] = useState(false)
+
+    //recebe as requisições e dados do estado global
     const {GetPokemonDetails, getAllPokemonColors, detalhesPokemon, coresPokemon} = useContext(PokeContext)
     
+    //pega o id do pokemon que vem na url
     const { id } = useParams()
+
     const statList = detalhesPokemon?.stats
     const moveList = detalhesPokemon?.moves?.slice(0, 7)
     const pokemonSpecies = detalhesPokemon?.species?.name
@@ -23,6 +28,7 @@ export function DetailsPage() {
     let totalStatsValue = 0
 
     //Identificar a cor do pokemon pela espécie e cria um styled para definir a cor do card de detalhes
+        //verificando se a array de cores chegou por completo no estado global
     if(coresPokemon.length >= 10) {
         coresPokemon.map(cor => {
             let speciesListColor = cor.pokemon_species
@@ -33,7 +39,7 @@ export function DetailsPage() {
             })
         })
     }
-    // filtra algumas cores que não contrastavam com a cor das letras
+    // altera algumas cores que não contrastavam com a cor das letras
     if(bgCardPokemonColor === 'white') {
         bgCardPokemonColor =   'black'
     } else if(bgCardPokemonColor === 'yellow') {
@@ -56,7 +62,7 @@ export function DetailsPage() {
         }, 2000)
     }
 
-    // mapeia a lista de status e a lista de moves
+    // mapeia a lista de status, a lista de moves e os tipos
     const listaDeStatusJsx = statList?.map((status, index) => {
         totalStatsValue += status.base_stat
         return(
@@ -120,15 +126,16 @@ export function DetailsPage() {
                     {/* Excluir pokemon da pokedex e mostra o aviso na tela */}
                     {isCapturando && <CapturarSoltar acao={'soltar'} />}
 
-
                     <DetalhesSectionDivision>
                         <NameMovesContainer>
                             <CardPequeno>
                                 <Id>#{detalhesPokemon?.id}</Id>
                                 <Name>{detalhesPokemon?.name}</Name>
-                                <BotaoUm></BotaoUm>
-                                <BotaoDois></BotaoDois>
+                                <MostraTiposPokemon 
+                                    listaTipos={detalhesPokemon?.types}
+                                />
                             </CardPequeno>
+                            {/* seção de moves */}
                             <MovesSection>
                                 <h2>Moves:</h2>
                                 <MovesLista>
@@ -136,11 +143,11 @@ export function DetailsPage() {
                                 </MovesLista>
                             </MovesSection>
                         </NameMovesContainer>
+
                         <ImagemContainer>
                             <PokemonImagem src={detalhesPokemon?.sprites?.other?.home?.front_default} alt='Imagen default do pokemon' />
                         </ImagemContainer>
                     </DetalhesSectionDivision>
-                    {/* seção de moves */}
                 </DetalhesSectioAtualizado>
             </MainContainer>
         </div>

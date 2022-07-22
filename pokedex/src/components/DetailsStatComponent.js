@@ -15,7 +15,7 @@ const StatBarDiv = styled.div`
     height: 2rem;
     display: grid;
     align-content: center;
-    grid-template-columns: repeat(125, 1fr);
+    grid-template-columns: repeat(150, 1fr);
 `
 
 const StatBarProgress = styled.div`
@@ -39,8 +39,10 @@ const DetailsStatComponent = (props) => {
     //decide a cor da barra de status
     let backgroundColor = ''
     if(props.statValue <= 50) {
-        backgroundColor = '#bfd040'
+        backgroundColor = '#80ff00'
     } else if(props.statValue > 50 && props.statValue < 85) {
+        backgroundColor = '#bfd040'
+    } else if(props.statValue >= 85 && props.statValue < 120 ){
         backgroundColor = '#c3601a'
     } else {
         backgroundColor = '#cf181a'
