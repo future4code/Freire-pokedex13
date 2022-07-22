@@ -1,5 +1,5 @@
-import React, { useContext } from "react"
-import { useNavigate, useEffect } from 'react-router-dom'
+import React, { useContext, useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 import { goToDetailsPage, goToPokedex } from "../coordinator/coordinator"
 import styled, { createGlobalStyle } from 'styled-components'
 import Logo from '../assets/logo.png'
@@ -7,6 +7,10 @@ import Poke from '../assets/poke.png'
 import Pokemon from '../assets/pokemon.png'
 import { CardPoke } from "../components/CardPoke"
 import { PokeContext } from "../context/PokeContext"
+import axios from 'axios'
+import { BlocoGrass, BlocoPoison, BlocoIce } from "./cardTypeStyled"
+import Poison from "../assets/poison.png"
+
 
 const GlobalStyle = createGlobalStyle`
 margin: 0;
@@ -70,10 +74,58 @@ flex-wrap: wrap;
 export function Home() {
     const navigate = useNavigate()
 
-    const {teste, setTeste} = useContext(PokeContext)
+    const [nome, setNome] = useState('')
+    const [info, setInfo] = useState('')
+
+    const getPokemon = () => {
+        axios.get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=21')
+            .then((res) => {
+                setNome(res.data.results)
+            }).catch((err) => {
+                alert(err.response)
+            })
+    }
+
+    const getPokeDetail = (url) => {
+        axios.get(url)
+            .then((res) => {
+                setInfo((res.data))
+                console.log(info)
+            }).catch((err) => {
+                alert(err.response)
+            })
+    }
+
+
+    useEffect(() => {
+        getPokemon()
+    }, [])
+
+    const urls = () => {
+        return nome && nome.map((nomes) => {
+            return nomes.url
+        })
+    }
+
+    const list = () => {
+        return nome && urls()?.map((link, id) => {
+            //  getPokeDetail(link)        
+            return <div>
+
+                <CardPoke
+                    id={2}
+                    nome={'teste'}
+                    key={id}
+                />
+            </div>
+        })
+    }
+
+    console.log(urls())
 
     return (
         <Tela>
+            {/* {getPokeDetail(nome[0].url)} */}
             <GlobalStyle />
             <Header>
                 <Imagem>
@@ -84,13 +136,8 @@ export function Home() {
             <Body>
                 <Titulo>Todos Pokémons</Titulo>
                 <Bloco>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
-                  <CardPoke/>
-                </Bloco>
+                    {list()}
+                </Bloco>               
             </Body>
         </Tela>
     )
