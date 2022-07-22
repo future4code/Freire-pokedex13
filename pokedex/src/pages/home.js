@@ -66,66 +66,38 @@ color: white;
 `
 
 const Bloco = styled.div`
-margin: 70px 30px;
-display: flex;
-flex-wrap: wrap;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 `
 
 export function Home() {
     const navigate = useNavigate()
 
-    const [nome, setNome] = useState('')
-    const [info, setInfo] = useState('')
-
-    const getPokemon = () => {
-        axios.get('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=21')
-            .then((res) => {
-                setNome(res.data.results)
-            }).catch((err) => {
-                alert(err.response)
-            })
-    }
-
-    const getPokeDetail = (url) => {
-        axios.get(url)
-            .then((res) => {
-                setInfo((res.data))
-                console.log(info)
-            }).catch((err) => {
-                alert(err.response)
-            })
-    }
-
+    const {getPokemon, getAllPokemonDetails, getAllPokemonColors, pokeListDetails, coresPokemon} = useContext(PokeContext)
 
     useEffect(() => {
         getPokemon()
+        getAllPokemonDetails()
     }, [])
-
-    const urls = () => {
-        return nome && nome.map((nomes) => {
-            return nomes.url
-        })
-    }
-
-    const list = () => {
-        return nome && urls()?.map((link, id) => {
-            //  getPokeDetail(link)        
-            return <div>
-
+    console.log('teste')
+    let listaPokemonJsx
+    if(pokeListDetails?.length === 20) {
+        listaPokemonJsx =  pokeListDetails?.map(pokemon => {   
+            return (
                 <CardPoke
-                    id={2}
-                    nome={'teste'}
-                    key={id}
+                    id={pokemon?.id}
+                    nome={pokemon?.name}
+                    key={pokemon?.id}
+                    imagem={pokemon?.sprites?.other?.home?.front_default}
+                    tipos={pokemon?.types}
                 />
-            </div>
+            )
         })
     }
-
-    console.log(urls())
 
     return (
         <Tela>
-            {/* {getPokeDetail(nome[0].url)} */}
             <GlobalStyle />
             <Header>
                 <Imagem>
@@ -136,7 +108,7 @@ export function Home() {
             <Body>
                 <Titulo>Todos Pokémons</Titulo>
                 <Bloco>
-                    {list()}
+                    {listaPokemonJsx}
                 </Bloco>               
             </Body>
         </Tela>

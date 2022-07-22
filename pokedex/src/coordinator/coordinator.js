@@ -1,5 +1,5 @@
-export const goToDetailsPage = (navigate) => {
-    navigate('/details')
+export const goToDetailsPage = (navigate, id) => {
+    navigate(`/details/${id}`)
 }
 
 export const goToPokedex = (navigate) => {
