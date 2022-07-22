@@ -63,11 +63,22 @@ export const DetalhesSection = styled.section`
     background-size: 50% 100%, cover;
     background-position: right;
     width: calc(100% - 3.126rem);
-    height: 42rem;
+    min-height: 42rem;
     border-radius: 37.89px;
-    box-shadow: 0px 2px 5px black;
+    box-shadow: 0px 3px 5px black;
     padding: 1.625rem 2.75rem;
     display: flex;
+    flex-wrap: wrap-reverse;
+    row-gap: 2.3rem;
+    justify-content: center;
+`
+
+export const DetalhesSectionDivision = styled.div` 
+    display: flex;
+    height: calc(42rem - 3.25rem);
+    width: 100%;
+    max-width: 650px;
+    justify-content: space-between;
 `
 
 export const ImagensContainer = styled.section` 
@@ -94,7 +105,7 @@ export const ImagemElemento = styled.img`
 export const StatsSection = styled.section` 
     margin-left: 2.85rem;
     height: 100%;
-    min-width: 343px;
+    min-width: 320px;
     background-color: white;
     border-radius: 8px;
     padding: 1.15rem;
@@ -114,20 +125,39 @@ export const StatTotalContainer = styled.div`
     font-weight: bold;
 `
 
-export const NameMovesContainer = styled.section` 
+export const NameMovesContainer = styled.section`
     margin-left: 2.85rem;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media screen and (max-width: 1366px) {
+        margin-left: 0;
+    }
 `
 
 export const MovesSection = styled.section`
+    padding: 1.1rem;
     height: 453px;
     min-width: 292px;
     background-color: white;
     border-radius: 8px;
 `
+
+export const MovesLista = styled.ul` 
+    list-style-type: none;
+`
+
+export const MovesListaItem = styled.li` 
+    margin: 0.5rem;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px dashed #d8d8d8;
+    font-size: 16px;
+    background-color: #ECECEC;
+    width: fit-content;
+`
+
 export const CardPequeno = styled.div`
     color: white;
     display: flex;
@@ -169,14 +199,24 @@ export const BotaoDois = styled.div`
     text-align: center;
 `
 
-export const ImagemContainer = styled.div` 
-    width: 100%;
+export const ImagemContainer = styled.div`
+    max-width: 292px;
+    @media screen and (max-width: 1366px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `
 
 export const PokemonImagem = styled.img`
     width: 100%;
-    min-width: 292px;
+    width: 292px;
     height: 375px;
     position: relative;
     bottom: 14rem;
+    @media screen and (max-width: 1366px) {
+        position: initial;
+        bottom: 0;
+        margin-left: 1rem;
+    }
 `

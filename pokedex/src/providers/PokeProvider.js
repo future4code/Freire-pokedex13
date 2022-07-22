@@ -9,7 +9,7 @@ export const PokeProvider = (props) => {
 
     //requisições
     const GetPokemonDetails = (idPokemon) => {
-        axios.get(`https://pokeapi.co/api/v2/pokemon/4/`)
+        axios.get(`https://pokeapi.co/api/v2/pokemon/11/`)
         .then(resp => {
             setDetalhesPokemon(resp.data)
         })
@@ -21,16 +21,11 @@ export const PokeProvider = (props) => {
     const GetPokemonColors = (id) => {
         axios.get(`https://pokeapi.co/api/v2/pokemon-color/${id}`)
         .then(resp => {
-            const novaCor = {
-                name: resp.data.name,
-                species: resp.data.pokemon_species
-            }
-            const novaListaDeCores = [...coresPokemon, novaCor]
-            console.log(novaListaDeCores)
-            setCoresPokemon(novaListaDeCores)
+            setCoresPokemon(prevCoresPokemon => [...prevCoresPokemon, resp.data])
         })
         .catch()
     }
+
     const getAllPokemonColors = () => {
         for (let index = 1; index <= 10; index++) {
             GetPokemonColors(index)
