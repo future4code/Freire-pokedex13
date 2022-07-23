@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 import Poke from '../assets/poke.png'
@@ -64,6 +64,23 @@ const Botoes = styled.div`
     }
 `
 
+const BotaoExcluir = styled.div` 
+    background-color: red;
+    width: 100%;
+    height: 100%;
+    color: white;
+    width: 146px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    :hover{
+        cursor: pointer;
+    }
+`
+
 const ImagenStyled = styled.img` 
     height: 150px;
     position: relative;
@@ -72,6 +89,7 @@ const ImagenStyled = styled.img`
 
 export const CardPoke = (props) => {
     const navigate = useNavigate()
+    const [paginaAtual, setPaginaAtual] = useState(props.paginaAtual)
 
     const handleClickDetalhes = () => {
         props.detalhes()
@@ -92,7 +110,7 @@ export const CardPoke = (props) => {
         <ContainerRight>
             <ImagenStyled src={props.imagem} />
             <Botoes>
-                <div><button onClick={props.capturar} id={props.id}>Capturar!</button></div>
+                {paginaAtual === 'home' ? <div><button onClick={props.capturar} id={props.id}>Capturar!</button></div> : <div><BotaoExcluir onClick={props.capturar} id={props.id}>Excluir!</BotaoExcluir></div>}
             </Botoes>
         </ContainerRight>
     </Card>
