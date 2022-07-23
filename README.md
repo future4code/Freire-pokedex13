@@ -1,4 +1,4 @@
-# POKEDEX 13
+<h1 align='center'>POKEDEX 13</h1>
 
 Nome dos integrantes: 
 - Pessoa 1
