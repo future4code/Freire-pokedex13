@@ -1,12 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 import Poke from '../assets/poke.png'
+import { goToDetailsPage } from "../coordinator/coordinator";
 import MostraTiposPokemon from "./MostraTiposPokemon";
 
 const Card = styled.div`
     width: 410px;
     height: 210px;
-    background-color: #729F92;
+    background: url(${Poke}), #729F92;
+    background-repeat: no-repeat;
+    background-size: 50% 100%, cover;
+    background-position: right;
     margin: 2rem 10px;
     border-radius: 12px;
     color: white;
@@ -66,6 +71,13 @@ const ImagenStyled = styled.img`
 `
 
 export const CardPoke = (props) => {
+    const navigate = useNavigate()
+
+    const handleClickDetalhes = () => {
+        props.detalhes()
+        goToDetailsPage(navigate, props.id)
+    }
+
     return <Card key={props.id}>
         <ContainerLeft>
             <div>
@@ -75,12 +87,12 @@ export const CardPoke = (props) => {
                     listaTipos={props.tipos}
                 />
             </div>
-            <div><a href={`details/${props.id}`}><u>Detalhes</u></a></div>
+            <div onClick={handleClickDetalhes}><u>Detalhes</u></div>
         </ContainerLeft>
         <ContainerRight>
             <ImagenStyled src={props.imagem} />
             <Botoes>
-                <div><button>Capturar!</button></div>
+                <div><button onClick={props.capturar} id={props.id}>Capturar!</button></div>
             </Botoes>
         </ContainerRight>
     </Card>

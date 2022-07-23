@@ -1,7 +1,7 @@
 import { PokeContext } from "../context/PokeContext";
 import { useState } from "react";
 import axios from 'axios'
-
+import useSWR from "swr";
 
 export const PokeProvider = (props) => {
     // se necessário mudar os nomes dos estados e requisições
@@ -9,40 +9,41 @@ export const PokeProvider = (props) => {
     const [pokeListDetails, setPokeListDetails] = useState([])
     const [detalhesPokemon, setDetalhesPokemon] = useState({})
     const [coresPokemon, setCoresPokemon] = useState([])
+    const [pokedexList, setPokedexList] = useState([])
 
-    //requisições
-    const getPokemon = () => {
+
+    const getAllPokemonDetails = (url) => {
+        for(let i = 0; i <= 21; i++){
+            axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
+            .then(resp => {
+                if(pokeListDetails?.length < 22) {
+                    setPokeListDetails(prevPokeListDetails => [...prevPokeListDetails, resp?.data])
+                    return resp?.data
+                }
+            })
+        }
+    }
+
+    const fetcher = (url) => {
         axios
             .get(
-                "https://pokeapi.co/api/v2/pokemon/"
+                url
             )
             .then((res) => {
                 // console.log(res.data)
                 setPokeList(res?.data?.results?.map(pokemon => {
-                    return pokemon.name
+                    return pokemon?.name
                 }))
             })
-            .catch((error) => {
-                console.log(error.response)
-            })
+            getAllPokemonDetails()
     }
 
-    const getAllPokemonDetails = () => {
-        pokeList?.map(pokemon => {
-            if(pokeListDetails.length < 21) {
-                axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}/`)
-                .then(resp => {
-                    setPokeListDetails(prevPokeListDetails => [...prevPokeListDetails, resp.data])
-                    return resp.data
-                })
-                .catch(err => {
-                    console.log(err)
-                    return err.response
-                })
-            }
-        })
+    const {data, error} = useSWR(`https://pokeapi.co/api/v2/pokemon/`, fetcher)
+
+    if(!pokeListDetails) {
+        return <div>Carregando...</div>
     }
-    
+
     //pega um pokemon específico, vai receber o id por parâmetro na página de detalhes, ou onde for chamada
     const GetPokemonDetails = (idPokemon) => {
         axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}/`)
@@ -70,7 +71,7 @@ export const PokeProvider = (props) => {
         }
     }
     
-    return <PokeContext.Provider value={{getPokemon, getAllPokemonDetails, GetPokemonDetails, getAllPokemonColors, pokeList, pokeListDetails, detalhesPokemon, coresPokemon}}>
+    return <PokeContext.Provider value={{ getAllPokemonDetails, GetPokemonDetails, getAllPokemonColors, setPokedexList, pokedexList, pokeList, pokeListDetails, detalhesPokemon, coresPokemon}}>
         {props.children}
     </PokeContext.Provider>
 }
