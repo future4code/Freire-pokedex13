@@ -10,6 +10,7 @@ import { PokeContext } from "../context/PokeContext"
 import axios from 'axios'
 import { BlocoGrass, BlocoPoison, BlocoIce } from "./cardTypeStyled"
 import Poison from "../assets/poison.png"
+import { CapturarSoltar } from "../components/CapturarSoltar"
 
 
 const GlobalStyle = createGlobalStyle`
@@ -71,28 +72,49 @@ const Bloco = styled.div`
     flex-wrap: wrap;
 `
 
+const DivExemp = styled.div` 
+    display: none;
+`
+
 export function Home() {
     const navigate = useNavigate()
+    const [isCapturando, setIsCapturando] = useState(false)
 
-    const {getPokemon, getAllPokemonDetails, getAllPokemonColors, pokeListDetails, coresPokemon} = useContext(PokeContext)
+    const { GetPokemonDetails, getAllPokemonColors, setPokedexList, pokedexList, pokeList, pokeListDetails, coresPokemon} = useContext(PokeContext)
 
     useEffect(() => {
-        getPokemon()
-        getAllPokemonDetails()
+        // getPokemon()
+        // getAllPokemonDetails()
     }, [])
-    console.log('teste')
+
+    const handleCaptura = (event) => {
+        setPokedexList(prevPokedexList => [...prevPokedexList, event.target.id])
+        setIsCapturando(true)
+        setTimeout(() => {
+            setIsCapturando(false)
+        }, 2000)
+    }
+
     let listaPokemonJsx
-    if(pokeListDetails?.length === 20) {
-        listaPokemonJsx =  pokeListDetails?.map(pokemon => {   
-            return (
-                <CardPoke
-                    id={pokemon?.id}
-                    nome={pokemon?.name}
-                    key={pokemon?.id}
-                    imagem={pokemon?.sprites?.other?.home?.front_default}
-                    tipos={pokemon?.types}
-                />
-            )
+    if(pokeListDetails?.length >= 20) {
+        let count = 0
+        listaPokemonJsx = pokeListDetails?.map(pokemon => {
+            if(count < 21) {
+                count++
+                return (
+                    <CardPoke
+                        id={pokemon?.id}
+                        nome={pokemon?.name}
+                        key={pokemon?.id}
+                        imagem={pokemon?.sprites?.other?.home?.front_default}
+                        tipos={pokemon?.types}
+                        detalhes={() => GetPokemonDetails(pokemon?.id)}
+                        capturar={handleCaptura}
+                    />
+                )
+            } else {
+                return <DivExemp key={count+15}></DivExemp>
+            }
         })
     }
 
@@ -109,7 +131,8 @@ export function Home() {
                 <Titulo>Todos Pokémons</Titulo>
                 <Bloco>
                     {listaPokemonJsx}
-                </Bloco>               
+                </Bloco>       
+                {isCapturando && <CapturarSoltar acao={'capturar'} />}        
             </Body>
         </Tela>
     )
