@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components"
+import PokeBg from '../assets/poke.png'
 
 
 export const GlobalStyle = createGlobalStyle`
@@ -49,4 +50,8 @@ display: flex;
 flex-wrap: wrap;
 justify-content: flex-start;
 align-items: center;
+
+`
+export const DivExemp = styled.div` 
+    display: none;
 `
