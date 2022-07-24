@@ -1,5 +1,5 @@
 import { PokeContext } from "../context/PokeContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios'
 import useSWR from "swr";
 
@@ -11,6 +11,9 @@ export const PokeProvider = (props) => {
     const [coresPokemon, setCoresPokemon] = useState([])
     const [pokedexList, setPokedexList] = useState([])
 
+    useEffect(() => {
+        setPokedexList(JSON.parse(localStorage.getItem('pokedex')))
+    }, [])
 
     const getAllPokemonDetails = (url) => {
         for(let i = 0; i <= 21; i++){

@@ -19,84 +19,50 @@ export function Pokedex() {
     /* const [pokemons, setPokemons] = useState([])
     const [name, setName] = useState([])
     const [nr, setNr] = useState([]) */
+    let pokedexFromLocal = JSON.parse(localStorage.getItem('pokedex'))
 
     const { GetPokemonDetails, getAllPokemonColors, setPokedexList, pokedexList, pokeList, pokeListDetails, coresPokemon} = useContext(PokeContext)
 
 
     useEffect(() => {
         // getPokemon();
-    }, []);
+        pokedexFromLocal = JSON.parse(localStorage.getItem('pokedex'))
+    }, [pokedexList]);
 
-   /*  const handleCaptura = (event) => {
+    const setIsCapturando = () => {
+        
+    }
+
+    const handleCaptura = (event) => {
         setPokedexList(prevPokedexList => [...prevPokedexList, event.target.id])
         setIsCapturando(true)
         setTimeout(() => {
             setIsCapturando(false)
         }, 2000)
-    } */
-
-    let listaPokemonJsx
-    // console.log(listaPokemonJsx)
-    if(pokeListDetails?.length >= 20) {
-        let count = 0
-        listaPokemonJsx = pokeListDetails?.map(pokemon => {
-
-          /*   pokedexList?.map(pokemondexId => {
-                console.log(pokedexList)
-                if(pokemon.id === Number(pokemondexId)){
-                    console.log(pokemon?.id)
-                    console.log("entrei",pokemondexId)
-                    console.log(pokemon?.name)
-                    console.log(pokemon?.sprites)
-                    console.log(pokemon?.types)
-                    return (
-                        <CardPoke
-                            id={pokemon?.id}
-                            nome={pokemon?.name}
-                            key={pokemon?.id}
-                            imagem={pokemon?.sprites?.other?.home?.front_default}
-                            tipos={pokemon?.types}
-                            detalhes={() => GetPokemonDetails(pokemon?.id)}
-                            // capturar={handleCaptura}
-                        />
-                    )
-             }}) */
-
-             console.log(pokedexList)
-            
-             if(count < 21) {
-                 count++ 
-                 
-                 pokedexList?.map(pokemondexId => {
-                    console.log(pokedexList)
-                    if(pokemon.id === Number(pokemondexId)){
-                        console.log(pokemon?.id)
-                        console.log("entrei",pokemondexId)
-                        console.log(pokemon?.name)
-                        console.log(pokemon?.sprites)
-                        console.log(pokemon?.types)
-                        return (
-                            <CardPoke
-                                id={pokemon?.id}
-                                nome={pokemon?.name}
-                                key={pokemon?.id}
-                                imagem={pokemon?.sprites?.other?.home?.front_default}
-                                tipos={pokemon?.types}
-                                detalhes={() => GetPokemonDetails(pokemon?.id)}
-                                // capturar={handleCaptura}
-                            />
-                        )
-                 }})
-               
-            } else {
-                return <DivExemp key={count+15}></DivExemp>
-            }
-        })
-    } else {
-        console.log("saindo")
     }
 
-  
+    let listaPokemonPokedexJsx
+    if(pokedexFromLocal.length > 0) {
+        listaPokemonPokedexJsx = pokedexFromLocal.map(idPokemonPokex => {
+            for(let i = 0; i < pokeListDetails?.length; i++) {
+                if(Number(idPokemonPokex) === pokeListDetails[i]?.id) {
+                    return (
+                        <CardPoke
+                            id={pokeListDetails[i]?.id}
+                            nome={pokeListDetails[i]?.name}
+                            key={pokeListDetails[i]?.id}
+                            imagem={pokeListDetails[i]?.sprites?.other?.home?.front_default}
+                            tipos={pokeListDetails[i]?.types}
+                            paginaAtual={'pokedex'}
+                            detalhes={() => GetPokemonDetails(pokeListDetails[i]?.id)}
+                            capturar={handleCaptura}
+                        />
+                    )
+                }
+            }
+        })
+    }
+
     return (
             <Tela>
                 <GlobalStyle />
@@ -111,7 +77,7 @@ export function Pokedex() {
                 <Body>
                     <Titulo>Meus Pokémons</Titulo>
                     <Bloco>
-                    {listaPokemonJsx}
+                        {listaPokemonPokedexJsx}
                     </Bloco>
                 </Body>
             </Tela>

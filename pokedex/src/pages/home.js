@@ -80,8 +80,8 @@ export function Home() {
     useEffect(() => {
         // getPokemon()
         // getAllPokemonDetails()
-        getAllPokemonColors()
-    }, [])
+        localStorage.setItem('pokedex', JSON.stringify(pokedexList))
+    }, [pokedexList])
 
     const handleCaptura = (event) => {
         setPokedexList(prevPokedexList => [...prevPokedexList, event.target.id])
@@ -90,7 +90,7 @@ export function Home() {
             setIsCapturando(false)
         }, 2000)
     }
-
+    
     let listaPokemonJsx
     if(pokeListDetails?.length >= 20) {
         let count = 0
