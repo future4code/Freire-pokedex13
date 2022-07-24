@@ -81,10 +81,11 @@ export function Home() {
         // getPokemon()
         // getAllPokemonDetails()
     }, [])
-
+    
     const handleCaptura = (event) => {
         const localPokedex = JSON.parse(localStorage.getItem('pokedex'))
-        const localPokedexAtualiza = [...localPokedex, event.target.id]
+        let localPokedexAtualiza
+        localPokedex ? localPokedexAtualiza = [...localPokedex, event.target.id] : localPokedexAtualiza = [event.target.id]
         localStorage.setItem('pokedex', JSON.stringify(localPokedexAtualiza))
         setPokedexList(localPokedexAtualiza)
         setIsCapturando(true)

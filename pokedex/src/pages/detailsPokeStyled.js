@@ -41,6 +41,28 @@ export const BotaoExcluir = styled.button`
     border-radius: 8px;
     border: none;
     font-size: 16px;
+    font-weight: bold;
+    &:hover {
+        cursor: pointer;
+        background-color: #f4625b;
+    }
+`
+
+export const BotaoAdicionar = styled.button` 
+    height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    background-color: green;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    &:hover {
+        cursor: pointer;
+        background-color: #33f353;
+    }
 `
 
 export const MainContainer = styled.main` 

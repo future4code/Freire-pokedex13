@@ -12,7 +12,7 @@ export const PokeProvider = (props) => {
     const [pokedexList, setPokedexList] = useState([])
 
     const getAllPokemonDetails = (url) => {
-        for(let i = 0; i <= 21; i++){
+        for(let i = 1; i <= 22; i++){
             axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
             .then(resp => {
                 if(pokeListDetails?.length < 22) {

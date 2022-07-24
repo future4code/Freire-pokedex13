@@ -57,6 +57,7 @@ const Botoes = styled.div`
         height: 38px;
         border-radius: 8px;
         background-color: #FFFFFF;
+        font-weight: bold;
         border: 0;
         :hover{
             cursor: pointer;
@@ -75,6 +76,7 @@ const BotaoExcluir = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
     border: 0;
     :hover{
         cursor: pointer;

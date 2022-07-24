@@ -9,17 +9,31 @@ import { CapturarSoltar } from "../components/CapturarSoltar"
 import DetailsStatComponent from "../components/DetailsStatComponent"
 import MostraTiposPokemon from "../components/MostraTiposPokemon"
 //import styles
-import {GlobalStyle2, HeaderContainer, MainContainer, Imagem, BotaoGoToHome, TituloPagina, DetalhesSection, ImagensContainer, ImagensContainerMenor, ImagemElemento, StatsSection, MovesSection, CardPequeno, Id, Name, BotaoUm, BotaoDois, BotaoExcluir, TitleStatsSection, StatTotalContainer, NameMovesContainer, ImagemContainer, PokemonImagem, MovesLista, MovesListaItem, DetalhesSectionDivision} from "./detailsPokeStyled"
+import {GlobalStyle2, HeaderContainer, MainContainer, Imagem, BotaoGoToHome, TituloPagina, DetalhesSection, ImagensContainer, ImagensContainerMenor, ImagemElemento, StatsSection, MovesSection, CardPequeno, Id, Name, BotaoUm, BotaoDois, BotaoExcluir, TitleStatsSection, StatTotalContainer, NameMovesContainer, ImagemContainer, PokemonImagem, MovesLista, MovesListaItem, DetalhesSectionDivision, BotaoAdicionar} from "./detailsPokeStyled"
 
 export function DetailsPage() {
     const navigate = useNavigate()
     const [isCapturando, setIsCapturando] = useState(false)
+    let isOnPokedex = false
+    let acaoCapturarSoltar = 'soltar'
 
     //recebe as requisições e dados do estado global
-    const {GetPokemonDetails, getAllPokemonColors, detalhesPokemon, coresPokemon} = useContext(PokeContext)
+    const {GetPokemonDetails, getAllPokemonColors, setPokedexList, detalhesPokemon, coresPokemon} = useContext(PokeContext)
     
     //pega o id do pokemon que vem na url
     const { id } = useParams()
+
+    //verifica se o pokemon está na pokedex
+    const pokedexAtual = JSON.parse(localStorage.getItem('pokedex'))
+    if(pokedexAtual) {
+        for (let index = 0; index < pokedexAtual.length; index++) {
+            console.log(pokedexAtual[index] === id)
+            if(pokedexAtual[index] === id) {
+                isOnPokedex = true
+                acaoCapturarSoltar = 'capturar'
+            }
+        }
+    }
 
     const statList = detalhesPokemon?.stats
     const moveList = detalhesPokemon?.moves?.slice(0, 7)
@@ -55,7 +69,20 @@ export function DetailsPage() {
     `
 
     //renderiza o car de captura ou soltar, depois de dois segundos apaga o card
-    const handleCaptura = () => {
+    const handleCaptura = (e) => {
+        const localPokedex = JSON.parse(localStorage.getItem('pokedex'))
+        let localPokedexAtualiza
+
+        //se o pokemon estiver na pokedex, ela é filtrada e mantém apenas os item com id diferente(isOnPokedex foi inicializado e verificado lá em cima)
+        if(isOnPokedex) {
+            localPokedexAtualiza = localPokedex.filter(idPokedex => id !== idPokedex)
+        } else {
+            //caso não esteja na pokedex, ele verifica se já existe uma pokedex e adiciona o pokemon à ela, ou cria uma nova com o pokémon
+            localPokedex ? localPokedexAtualiza = [...localPokedex, e.target.id] : localPokedexAtualiza = [e.target.id]
+        }
+
+        localStorage.setItem('pokedex', JSON.stringify(localPokedexAtualiza))
+        setPokedexList(localPokedexAtualiza)
         setIsCapturando(true)
         setTimeout(() => {
             setIsCapturando(false)
@@ -83,7 +110,7 @@ export function DetailsPage() {
     })
 
     useEffect(() => {
-        GetPokemonDetails()
+        GetPokemonDetails(id)
         getAllPokemonColors()
     }, [])
 
@@ -95,7 +122,7 @@ export function DetailsPage() {
                 <Imagem>
                     <img src={Logo} alt='logo pokedex'/>
                 </Imagem>
-                <BotaoExcluir onClick={() => handleCaptura()}>Excluir do Pokédex</BotaoExcluir>
+                {isOnPokedex ? <BotaoExcluir onClick={(e) => handleCaptura(e)} id={id}>Excluir do Pokédex</BotaoExcluir> : <BotaoAdicionar onClick={(e) => handleCaptura(e)} id={id}>Capturar Pokémon</BotaoAdicionar>}
             </HeaderContainer>
 
             <MainContainer>
@@ -124,7 +151,7 @@ export function DetailsPage() {
                     </DetalhesSectionDivision>
 
                     {/* Excluir pokemon da pokedex e mostra o aviso na tela */}
-                    {isCapturando && <CapturarSoltar acao={'soltar'} />}
+                    {isCapturando && <CapturarSoltar acao={acaoCapturarSoltar} />}
 
                     <DetalhesSectionDivision>
                         <NameMovesContainer>
