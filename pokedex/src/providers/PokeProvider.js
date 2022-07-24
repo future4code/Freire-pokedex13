@@ -20,6 +20,7 @@ export const PokeProvider = (props) => {
                     setPokeListDetails(prevPokeListDetails => [...prevPokeListDetails, resp?.data])
                     return resp?.data
                 }
+                // localStorage.setItem("id", resp?.data)
             })
         }
     }
@@ -46,6 +47,7 @@ export const PokeProvider = (props) => {
 
     //pega um pokemon específico, vai receber o id por parâmetro na página de detalhes, ou onde for chamada
     const GetPokemonDetails = (idPokemon) => {
+        console.log("esse é o id ", idPokemon)
         axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}/`)
         .then(resp => {
             setDetalhesPokemon(resp.data)

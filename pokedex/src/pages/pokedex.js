@@ -1,85 +1,121 @@
 import React from "react"
 import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from "react"
 import { goToDetailsPage, goToHome } from "../coordinator/coordinator"
 import Logo from '../assets/logo.png'
 import Poke from '../assets/poke.png'
 import Pokemon from '../assets/pokemon.png'
 import { CardPoke } from "../components/CardPoke"
-import {Tela, GlobalStyle, Header, Imagem, Body, Titulo, Bloco} from './pokedexStyled'
+import { PokeContext } from "../context/PokeContext"
+import { Tela, GlobalStyle, Header, Imagem, Body, Titulo, Bloco, DivExemp } from './pokedexStyled'
 
 
 export function Pokedex() {
 
     const navigate = useNavigate()
 
-    const [pokeList, setPokeList] = useState([])
-    const [pokemons, setPokemons] = useState([])
+    // const [pokeList, setPokeList] = useState([])
+    /* const [pokemons, setPokemons] = useState([])
     const [name, setName] = useState([])
-    const [nr, setNr] = useState([])
+    const [nr, setNr] = useState([]) */
 
-    const getPokemon = () => {
-         axios
-             .get(
-                 "https://pokeapi.co/api/v2/pokemon/"
-             )
-             .then((res) => {
-                 // console.log(res.data)
-                 setPokeList(res.data.results)
-                 console.log(res.data.results)
-             })
-             .catch((error) => {
-                 console.log(error.response)
-             })
-     }
-
-        useEffect(() => {
-            getPokemon();
-        }, []);
-
-        const mapearPokemon = pokeList.map((pokemon) => {
-            return (pokemon)
-        }) 
+    const { GetPokemonDetails, getAllPokemonColors, setPokedexList, pokedexList, pokeList, pokeListDetails, coresPokemon} = useContext(PokeContext)
 
 
-      /*  const PokeIndiv = () 
-           
-                <PokeIndiv name={pokemon.name} url={pokemon.url} /> */ 
+    useEffect(() => {
+        // getPokemon();
+    }, []);
 
+   /*  const handleCaptura = (event) => {
+        setPokedexList(prevPokedexList => [...prevPokedexList, event.target.id])
+        setIsCapturando(true)
+        setTimeout(() => {
+            setIsCapturando(false)
+        }, 2000)
+    } */
 
+    let listaPokemonJsx
+    // console.log(listaPokemonJsx)
+    if(pokeListDetails?.length >= 20) {
+        let count = 0
+        listaPokemonJsx = pokeListDetails?.map(pokemon => {
 
+          /*   pokedexList?.map(pokemondexId => {
+                console.log(pokedexList)
+                if(pokemon.id === Number(pokemondexId)){
+                    console.log(pokemon?.id)
+                    console.log("entrei",pokemondexId)
+                    console.log(pokemon?.name)
+                    console.log(pokemon?.sprites)
+                    console.log(pokemon?.types)
+                    return (
+                        <CardPoke
+                            id={pokemon?.id}
+                            nome={pokemon?.name}
+                            key={pokemon?.id}
+                            imagem={pokemon?.sprites?.other?.home?.front_default}
+                            tipos={pokemon?.types}
+                            detalhes={() => GetPokemonDetails(pokemon?.id)}
+                            // capturar={handleCaptura}
+                        />
+                    )
+             }}) */
 
-
-
-
-        return (
-            <div>
-                <Tela>
-                    <GlobalStyle />
-                    <Header>
-                        <div>
-                            <a href="/">{"<"} Todos Pokémons</a>
-                        </div>
-                        <Imagem>
-                            <img src={Logo} />
-                        </Imagem>
-                    </Header>
-                    <Body>
-                        <Titulo>Todos Pokémons</Titulo>
-                        <Bloco>
-                            <CardPoke />
-                            <CardPoke />
-                            <CardPoke />
-                            <CardPoke />
-                            <CardPoke />
-
-                        </Bloco>
-                    </Body>
-                </Tela>
-            </div>
-        )
-
-
+             console.log(pokedexList)
+            
+             if(count < 21) {
+                 count++ 
+                 
+                 pokedexList?.map(pokemondexId => {
+                    console.log(pokedexList)
+                    if(pokemon.id === Number(pokemondexId)){
+                        console.log(pokemon?.id)
+                        console.log("entrei",pokemondexId)
+                        console.log(pokemon?.name)
+                        console.log(pokemon?.sprites)
+                        console.log(pokemon?.types)
+                        return (
+                            <CardPoke
+                                id={pokemon?.id}
+                                nome={pokemon?.name}
+                                key={pokemon?.id}
+                                imagem={pokemon?.sprites?.other?.home?.front_default}
+                                tipos={pokemon?.types}
+                                detalhes={() => GetPokemonDetails(pokemon?.id)}
+                                // capturar={handleCaptura}
+                            />
+                        )
+                 }})
+               
+            } else {
+                return <DivExemp key={count+15}></DivExemp>
+            }
+        })
+    } else {
+        console.log("saindo")
     }
+
+  
+    return (
+            <Tela>
+                <GlobalStyle />
+                <Header>
+                    <div>
+                        <a href="/">{"<"} Todos Pokémons</a>
+                    </div>
+                    <Imagem>
+                        <img src={Logo} />
+                    </Imagem>
+                </Header>
+                <Body>
+                    <Titulo>Meus Pokémons</Titulo>
+                    <Bloco>
+                    {listaPokemonJsx}
+                    </Bloco>
+                </Body>
+            </Tela>
+    )
+
+}
 
