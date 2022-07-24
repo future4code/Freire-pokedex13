@@ -1,15 +1,10 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
-import { goToDetailsPage, goToPokedex } from "../coordinator/coordinator"
+import { goToPokedex } from "../coordinator/coordinator"
 import styled, { createGlobalStyle } from 'styled-components'
 import Logo from '../assets/logo.png'
-import Poke from '../assets/poke.png'
-import Pokemon from '../assets/pokemon.png'
 import { CardPoke } from "../components/CardPoke"
 import { PokeContext } from "../context/PokeContext"
-import axios from 'axios'
-import { BlocoGrass, BlocoPoison, BlocoIce } from "./cardTypeStyled"
-import Poison from "../assets/poison.png"
 import { CapturarSoltar } from "../components/CapturarSoltar"
 
 
@@ -88,13 +83,16 @@ export function Home() {
     }, [])
 
     const handleCaptura = (event) => {
-        setPokedexList(prevPokedexList => [...prevPokedexList, event.target.id])
+        const localPokedex = JSON.parse(localStorage.getItem('pokedex'))
+        const localPokedexAtualiza = [...localPokedex, event.target.id]
+        localStorage.setItem('pokedex', JSON.stringify(localPokedexAtualiza))
+        setPokedexList(localPokedexAtualiza)
         setIsCapturando(true)
         setTimeout(() => {
             setIsCapturando(false)
         }, 2000)
     }
-
+    
     let listaPokemonJsx
     if(pokeListDetails?.length >= 20) {
         let count = 0
@@ -108,6 +106,7 @@ export function Home() {
                         key={pokemon?.id}
                         imagem={pokemon?.sprites?.other?.home?.front_default}
                         tipos={pokemon?.types}
+                        paginaAtual={'home'}
                         detalhes={() => GetPokemonDetails(pokemon?.id)}
                         capturar={handleCaptura}
                     />
@@ -136,7 +135,5 @@ export function Home() {
             </Body>
         </Tela>
     )
-
-
 }
 
