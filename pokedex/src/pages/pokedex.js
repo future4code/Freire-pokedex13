@@ -8,12 +8,14 @@ import Poke from '../assets/poke.png'
 import Pokemon from '../assets/pokemon.png'
 import { CardPoke } from "../components/CardPoke"
 import { PokeContext } from "../context/PokeContext"
+import { CapturarSoltar } from "../components/CapturarSoltar"
 import { Tela, GlobalStyle, Header, Imagem, Body, Titulo, Bloco, DivExemp } from './pokedexStyled'
 
 
 export function Pokedex() {
 
     const navigate = useNavigate()
+    const [isCapturando, setIsCapturando] = useState(false)
 
     // const [pokeList, setPokeList] = useState([])
     /* const [pokemons, setPokemons] = useState([])
@@ -29,12 +31,15 @@ export function Pokedex() {
         pokedexFromLocal = JSON.parse(localStorage.getItem('pokedex'))
     }, [pokedexList]);
 
-    const setIsCapturando = () => {
-        
-    }
+    const handleExcluir = (e) => {
+        const localPokedex = JSON.parse(localStorage.getItem('pokedex'))
+        let localPokedexAtualiza
 
-    const handleCaptura = (event) => {
-        setPokedexList(prevPokedexList => [...prevPokedexList, event.target.id])
+        //A pokedex é filtrada e mantém apenas os item com id diferente
+        localPokedexAtualiza = localPokedex.filter(idPokedex => e.target.id !== idPokedex)
+
+        localStorage.setItem('pokedex', JSON.stringify(localPokedexAtualiza))
+        setPokedexList(localPokedexAtualiza)
         setIsCapturando(true)
         setTimeout(() => {
             setIsCapturando(false)
@@ -55,7 +60,7 @@ export function Pokedex() {
                             tipos={pokeListDetails[i]?.types}
                             paginaAtual={'pokedex'}
                             detalhes={() => GetPokemonDetails(pokeListDetails[i]?.id)}
-                            capturar={handleCaptura}
+                            capturar={handleExcluir}
                         />
                     )
                 }
@@ -79,6 +84,7 @@ export function Pokedex() {
                     <Bloco>
                         {listaPokemonPokedexJsx}
                     </Bloco>
+                    {isCapturando && <CapturarSoltar acao={'soltar'} />}
                 </Body>
             </Tela>
     )
