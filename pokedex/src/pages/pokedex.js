@@ -47,7 +47,7 @@ export function Pokedex() {
     }
 
     let listaPokemonPokedexJsx
-    if(pokedexFromLocal.length > 0) {
+    if(pokedexFromLocal?.length > 0) {
         listaPokemonPokedexJsx = pokedexFromLocal.map(idPokemonPokex => {
             for(let i = 0; i < pokeListDetails?.length; i++) {
                 if(Number(idPokemonPokex) === pokeListDetails[i]?.id) {
