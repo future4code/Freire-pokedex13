@@ -80,11 +80,13 @@ export function Home() {
     useEffect(() => {
         // getPokemon()
         // getAllPokemonDetails()
-        localStorage.setItem('pokedex', JSON.stringify(pokedexList))
-    }, [pokedexList])
+    }, [])
 
     const handleCaptura = (event) => {
-        setPokedexList(prevPokedexList => [...prevPokedexList, event.target.id])
+        const localPokedex = JSON.parse(localStorage.getItem('pokedex'))
+        const localPokedexAtualiza = [...localPokedex, event.target.id]
+        localStorage.setItem('pokedex', JSON.stringify(localPokedexAtualiza))
+        setPokedexList(localPokedexAtualiza)
         setIsCapturando(true)
         setTimeout(() => {
             setIsCapturando(false)

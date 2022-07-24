@@ -11,10 +11,6 @@ export const PokeProvider = (props) => {
     const [coresPokemon, setCoresPokemon] = useState([])
     const [pokedexList, setPokedexList] = useState([])
 
-    useEffect(() => {
-        setPokedexList(JSON.parse(localStorage.getItem('pokedex')))
-    }, [])
-
     const getAllPokemonDetails = (url) => {
         for(let i = 0; i <= 21; i++){
             axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`)
