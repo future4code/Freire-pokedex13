@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { DetailsPage } from '../pages/detailsPoke' 
 import { Home } from '../pages/home'
 import { Pokedex } from '../pages/pokedex'
+// poderia ter nomeado a pasta Router
 
 export const Router = () => {
     return (
